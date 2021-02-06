@@ -3,6 +3,7 @@ package com.ss.utopia.orchestrator.controller;
 import com.ss.utopia.orchestrator.client.CustomerClient;
 import com.ss.utopia.orchestrator.dto.CustomerDto;
 import com.ss.utopia.orchestrator.model.Customer;
+import java.net.URI;
 import javax.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class CustomerController {
   }
 
   @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-  public ResponseEntity<Long> createNewCustomer(@Valid @RequestBody CustomerDto customerDto) {
+  public ResponseEntity<URI> createNewCustomer(@Valid @RequestBody CustomerDto customerDto) {
     return client.createNewCustomer(customerDto);
   }
 

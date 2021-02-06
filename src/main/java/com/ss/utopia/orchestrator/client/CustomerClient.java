@@ -2,6 +2,7 @@ package com.ss.utopia.orchestrator.client;
 
 import com.ss.utopia.orchestrator.dto.CustomerDto;
 import com.ss.utopia.orchestrator.model.Customer;
+import java.net.URI;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
@@ -34,9 +35,9 @@ public class CustomerClient {
     return restTemplate.getForEntity(url, Customer.class);
   }
 
-  public ResponseEntity<Long> createNewCustomer(CustomerDto customerDto) {
+  public ResponseEntity<URI> createNewCustomer(CustomerDto customerDto) {
     var url = apiHost + endpoint;
-    return restTemplate.postForEntity(url, customerDto, Long.class);
+    return restTemplate.postForEntity(url, customerDto, URI.class);
   }
 
   public void updateExisting(Long id, CustomerDto customerDto) {
