@@ -40,7 +40,7 @@ public class FlightController {
     return client.createFlight(flightDto);
   }
 
-  @PutMapping("/{id}")
+  @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<?> updateFlight(@PathVariable Long id,
                                         @Valid @RequestBody FlightDto flightDto) {
     client.updateFlight(id, flightDto);

@@ -41,7 +41,8 @@ public class CustomerController {
     return client.createNewCustomer(customerDto);
   }
 
-  @PutMapping("/{id}")
+  @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE,
+      MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<?> updateExisting(@PathVariable Long id,
                                           @Valid @RequestBody CustomerDto customerDto) {
     client.updateExisting(id, customerDto);
