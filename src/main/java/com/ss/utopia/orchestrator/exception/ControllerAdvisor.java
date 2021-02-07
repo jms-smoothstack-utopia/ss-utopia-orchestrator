@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 
 @RestControllerAdvice
 public class ControllerAdvisor {
@@ -44,5 +45,12 @@ public class ControllerAdvisor {
     return ResponseEntity.status(ex.getStatusCode())
         .headers(ex.getResponseHeaders())
         .body(ex.getResponseBodyAsByteArray());
+  }
+
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  @ExceptionHandler(HttpServerErrorException.class)
+  private ResponseEntity<?> httpServerErrorException(HttpServerErrorException ex) {
+    return ResponseEntity.status(ex.getStatusCode())
+        .build();
   }
 }
