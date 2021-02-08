@@ -4,6 +4,8 @@ import com.ss.utopia.orchestrator.client.AirportClient;
 import com.ss.utopia.orchestrator.dto.AirportDto;
 import com.ss.utopia.orchestrator.model.Airport;
 import javax.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/airport")
 public class AirportController {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(AirportController.class);
+
   private final AirportClient client;
 
   public AirportController(AirportClient client) {
@@ -27,16 +31,19 @@ public class AirportController {
 
   @GetMapping("/{id}")
   public ResponseEntity<Airport> getAirportById(@PathVariable Long id) {
+    LOGGER.info("GET id=" + id);
     return client.getAirportById(id);
   }
 
   @GetMapping
   public ResponseEntity<Airport[]> getAllAirports() {
+    LOGGER.info("GET all");
     return client.getAllAirports();
   }
 
   @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<Long> createAirport(@Valid @RequestBody AirportDto airportDto) {
+    LOGGER.info("POST");
     return client.createAirport(airportDto);
   }
 
@@ -44,12 +51,14 @@ public class AirportController {
       MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<?> updateAirport(@PathVariable Long id,
                                          @Valid @RequestBody AirportDto airportDto) {
+    LOGGER.info("PUT id=" + id);
     client.updateAirport(id, airportDto);
     return ResponseEntity.ok().build();
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<String> deleteAirport(@PathVariable Long id) {
+    LOGGER.info("DELETE id=" + id);
     client.deleteAirport(id);
     return ResponseEntity.noContent().build();
   }

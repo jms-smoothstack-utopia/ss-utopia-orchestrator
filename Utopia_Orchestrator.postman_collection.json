@@ -26,11 +26,11 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8082/tickets",
+									"raw": "localhost:8080/tickets",
 									"host": [
 										"localhost"
 									],
-									"port": "8082",
+									"port": "8080",
 									"path": [
 										"tickets"
 									]
@@ -53,11 +53,11 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8082/tickets",
+									"raw": "localhost:8080/tickets",
 									"host": [
 										"localhost"
 									],
-									"port": "8082",
+									"port": "8080",
 									"path": [
 										"tickets"
 									]
@@ -109,7 +109,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"id\": 2,\r\n    \"flightId\": 1,\r\n    \"customerId\": 1,\r\n    \"passenger\": \"John Smith\",\r\n    \"checkedIn\": true\r\n}",
+									"raw": "{\r\n    \"id\": 1,\r\n    \"flightId\": 1,\r\n    \"customerId\": 1,\r\n    \"passenger\": \"John Smith\",\r\n    \"checkedIn\": true\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -117,14 +117,14 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8080/tickets/2",
+									"raw": "localhost:8080/tickets/1",
 									"host": [
 										"localhost"
 									],
 									"port": "8080",
 									"path": [
 										"tickets",
-										"2"
+										"1"
 									]
 								}
 							},
@@ -426,7 +426,16 @@
 							"request": {
 								"method": "GET",
 								"header": [],
-								"url": null
+								"url": {
+									"raw": "localhost:8080/airplane",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"airplane"
+									]
+								}
 							},
 							"response": []
 						},
@@ -626,7 +635,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"city\": \"atlanta\",\r\n    \"iataId\": \"ATL\"\r\n}",
+									"raw": "{\r\n    \"city\": \"las vegas\",\r\n    \"iataId\": \"LAS\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -653,7 +662,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"city\":\"las vegas\",\r\n    \"iataId\": \"LAS\"\r\n}",
+									"raw": "{\r\n    \"city\":\"los angeles\",\r\n    \"iataId\": \"LAX\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"

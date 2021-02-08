@@ -5,6 +5,8 @@ import com.ss.utopia.orchestrator.dto.CustomerDto;
 import com.ss.utopia.orchestrator.model.Customer;
 import java.net.URI;
 import javax.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/customer")
 public class CustomerController {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
+
   private final CustomerClient client;
 
   public CustomerController(CustomerClient client) {
@@ -28,16 +32,19 @@ public class CustomerController {
 
   @GetMapping
   public ResponseEntity<Customer[]> getAll() {
+    LOGGER.info("GET all");
     return client.getAllCustomers();
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
+    LOGGER.info("GET id=" + id);
     return client.getCustomerById(id);
   }
 
   @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<URI> createNewCustomer(@Valid @RequestBody CustomerDto customerDto) {
+    LOGGER.info("POST");
     return client.createNewCustomer(customerDto);
   }
 
@@ -45,12 +52,14 @@ public class CustomerController {
       MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<?> updateExisting(@PathVariable Long id,
                                           @Valid @RequestBody CustomerDto customerDto) {
+    LOGGER.info("PUT id=" + id);
     client.updateExisting(id, customerDto);
     return ResponseEntity.ok().build();
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<?> delete(@PathVariable Long id) {
+    LOGGER.info("DELETE id=" + id);
     client.deleteCustomer(id);
     return ResponseEntity.noContent().build();
   }
