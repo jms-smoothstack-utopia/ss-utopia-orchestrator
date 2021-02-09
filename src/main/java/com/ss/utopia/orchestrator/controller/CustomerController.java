@@ -36,7 +36,8 @@ public class CustomerController {
     return client.getAllCustomers();
   }
 
-  @GetMapping("/{id}")
+  @GetMapping(value ="/{id}",
+      produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
     LOGGER.info("GET id=" + id);
     return client.getCustomerById(id);
@@ -48,8 +49,8 @@ public class CustomerController {
     return client.createNewCustomer(customerDto);
   }
 
-  @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE,
-      MediaType.APPLICATION_XML_VALUE})
+  @PutMapping(value = "/{id}",
+      consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<?> updateExisting(@PathVariable Long id,
                                           @Valid @RequestBody CustomerDto customerDto) {
     LOGGER.info("PUT id=" + id);

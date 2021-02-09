@@ -29,13 +29,14 @@ public class AirplaneController {
     this.client = client;
   }
 
-  @GetMapping("/{id}")
+  @GetMapping(value = "/{id}",
+      produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<Airplane> getAirplaneById(@PathVariable Long id) {
     LOGGER.info("GET id=" + id);
     return client.getAirplaneById(id);
   }
 
-  @GetMapping
+  @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<Airplane[]> getAllAirplanes() {
     LOGGER.info("GET all");
     return client.getAllAirplanes();
@@ -47,8 +48,8 @@ public class AirplaneController {
     return client.createAirplane(airplaneDto);
   }
 
-  @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE,
-      MediaType.APPLICATION_XML_VALUE})
+  @PutMapping(value = "/{id}",
+      consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<?> updateAirplane(@PathVariable Long id,
                                           @Valid @RequestBody AirplaneDto airplaneDto) {
     LOGGER.info("PUT id=" + id);

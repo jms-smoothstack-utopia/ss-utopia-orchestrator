@@ -29,13 +29,14 @@ public class AirportController {
     this.client = client;
   }
 
-  @GetMapping("/{id}")
+  @GetMapping(value = "/{id}",
+      produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<Airport> getAirportById(@PathVariable Long id) {
     LOGGER.info("GET id=" + id);
     return client.getAirportById(id);
   }
 
-  @GetMapping
+  @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<Airport[]> getAllAirports() {
     LOGGER.info("GET all");
     return client.getAllAirports();
@@ -47,8 +48,8 @@ public class AirportController {
     return client.createAirport(airportDto);
   }
 
-  @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE,
-      MediaType.APPLICATION_XML_VALUE})
+  @PutMapping(value = "/{id}",
+      consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<?> updateAirport(@PathVariable Long id,
                                          @Valid @RequestBody AirportDto airportDto) {
     LOGGER.info("PUT id=" + id);

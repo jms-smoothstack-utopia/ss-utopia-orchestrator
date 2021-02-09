@@ -28,13 +28,14 @@ public class TicketsController {
     this.client = client;
   }
 
-  @GetMapping
+  @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<Ticket[]> getAllTickets() {
     LOGGER.info("GET all");
     return client.getAllTickets();
   }
 
-  @GetMapping("/{id}")
+  @GetMapping(value = "/{id}",
+      produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<Ticket> getTicketById(@PathVariable Long id) {
     LOGGER.info("GET id=" + id);
     return client.getTicketById(id);

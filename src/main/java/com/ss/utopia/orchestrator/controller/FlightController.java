@@ -29,7 +29,8 @@ public class FlightController {
     this.client = client;
   }
 
-  @GetMapping("/{id}")
+  @GetMapping(value = "/{id}",
+      produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<Flight> getFlightById(@PathVariable Long id) {
     LOGGER.info("GET id=" + id);
     return client.getFlightById(id);
@@ -47,7 +48,8 @@ public class FlightController {
     return client.createFlight(flightDto);
   }
 
-  @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+  @PutMapping(value = "/{id}",
+      consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<?> updateFlight(@PathVariable Long id,
                                         @Valid @RequestBody FlightDto flightDto) {
     LOGGER.info("PUT id=" + id);
