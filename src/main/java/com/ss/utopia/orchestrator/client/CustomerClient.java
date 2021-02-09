@@ -17,7 +17,7 @@ public class CustomerClient {
 
   private static final Logger LOGGER = LoggerFactory.getLogger( CustomerClient.class );
   private final RestTemplate restTemplate;
-  private final String endpoint = "/customer/";
+  private final String endpoint = "/customers/";
   private String apiHost;
 
   public CustomerClient(RestTemplateBuilder restTemplateBuilder) {

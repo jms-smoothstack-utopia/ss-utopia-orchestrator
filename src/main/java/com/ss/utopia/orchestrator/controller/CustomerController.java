@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/customers")
 public class CustomerController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
@@ -30,7 +30,7 @@ public class CustomerController {
     this.client = client;
   }
 
-  @GetMapping
+  @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<Customer[]> getAll() {
     LOGGER.info("GET all");
     return client.getAllCustomers();
