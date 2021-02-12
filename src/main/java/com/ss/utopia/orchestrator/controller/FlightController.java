@@ -1,7 +1,7 @@
 package com.ss.utopia.orchestrator.controller;
 
 import com.ss.utopia.orchestrator.client.FlightClient;
-import com.ss.utopia.orchestrator.dto.FlightDto;
+import com.ss.utopia.dto.FlightDto;
 import com.ss.utopia.orchestrator.model.Flight;
 import javax.validation.Valid;
 import org.slf4j.Logger;

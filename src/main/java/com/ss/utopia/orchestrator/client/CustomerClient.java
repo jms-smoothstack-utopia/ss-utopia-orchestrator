@@ -1,6 +1,7 @@
 package com.ss.utopia.orchestrator.client;
 
-import com.ss.utopia.orchestrator.dto.CustomerDto;
+
+import com.ss.utopia.dto.CustomerDto;
 import com.ss.utopia.orchestrator.model.Customer;
 import java.net.URI;
 import org.slf4j.Logger;

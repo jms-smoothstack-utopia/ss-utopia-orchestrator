@@ -1,6 +1,6 @@
 package com.ss.utopia.orchestrator.client;
 
-import com.ss.utopia.orchestrator.dto.FlightDto;
+import com.ss.utopia.dto.FlightDto;
 import com.ss.utopia.orchestrator.model.Flight;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
