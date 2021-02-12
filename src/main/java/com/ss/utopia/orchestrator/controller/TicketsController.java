@@ -1,8 +1,8 @@
 package com.ss.utopia.orchestrator.controller;
 
+import com.ss.utopia.lib.dto.TicketsDto;
+import com.ss.utopia.lib.model.tickets.Ticket;
 import com.ss.utopia.orchestrator.client.TicketsClient;
-import com.ss.utopia.dto.TicketsDto;
-import com.ss.utopia.orchestrator.model.Ticket;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

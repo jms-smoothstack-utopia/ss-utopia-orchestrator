@@ -1,7 +1,7 @@
 package com.ss.utopia.orchestrator.client;
 
-import com.ss.utopia.dto.TicketsDto;
-import com.ss.utopia.orchestrator.model.Ticket;
+import com.ss.utopia.lib.dto.TicketsDto;
+import com.ss.utopia.lib.model.tickets.Ticket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 @ConfigurationProperties(prefix = "ss.utopia.ticket", ignoreUnknownFields = false)
 public class TicketsClient {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger( TicketsClient.class );
+  private static final Logger LOGGER = LoggerFactory.getLogger(TicketsClient.class);
   private final RestTemplate restTemplate;
   private final String endpoint = "/tickets/";
   private String apiHost;

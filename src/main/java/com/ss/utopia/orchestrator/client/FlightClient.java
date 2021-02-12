@@ -1,7 +1,7 @@
 package com.ss.utopia.orchestrator.client;
 
-import com.ss.utopia.dto.FlightDto;
-import com.ss.utopia.orchestrator.model.Flight;
+import com.ss.utopia.lib.dto.FlightDto;
+import com.ss.utopia.lib.model.flights.Flight;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 @ConfigurationProperties(prefix = "ss.utopia.flight", ignoreUnknownFields = false)
 public class FlightClient {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger( FlightClient.class );
+  private static final Logger LOGGER = LoggerFactory.getLogger(FlightClient.class);
   private final RestTemplate restTemplate;
   private final String endpoint = "/flight/";
   private String apiHost;

@@ -1,8 +1,7 @@
 package com.ss.utopia.orchestrator.client;
 
-
-import com.ss.utopia.dto.CustomerDto;
-import com.ss.utopia.orchestrator.model.Customer;
+import com.ss.utopia.lib.dto.CustomerDto;
+import com.ss.utopia.lib.model.customers.Customer;
 import java.net.URI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 @ConfigurationProperties(prefix = "ss.utopia.customer", ignoreUnknownFields = false)
 public class CustomerClient {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger( CustomerClient.class );
+  private static final Logger LOGGER = LoggerFactory.getLogger(CustomerClient.class);
   private final RestTemplate restTemplate;
   private final String endpoint = "/customers/";
   private String apiHost;
