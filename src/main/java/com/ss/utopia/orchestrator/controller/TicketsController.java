@@ -1,8 +1,8 @@
 package com.ss.utopia.orchestrator.controller;
 
-import com.ss.utopia.lib.dto.TicketsDto;
-import com.ss.utopia.lib.model.tickets.Ticket;
 import com.ss.utopia.orchestrator.client.TicketsClient;
+import com.ss.utopia.orchestrator.dto.tickets.PurchaseTicketDto;
+import com.ss.utopia.orchestrator.models.tickets.Ticket;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,17 +42,16 @@ public class TicketsController {
   }
 
   @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-  public ResponseEntity<Ticket> createTicket(@Valid @RequestBody TicketsDto ticketsDto) {
+  public ResponseEntity<Ticket> createTicket(@Valid @RequestBody PurchaseTicketDto ticketsDto) {
     LOGGER.info("POST");
     return client.createTicket(ticketsDto);
   }
 
   @PutMapping(value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE,
       MediaType.APPLICATION_XML_VALUE})
-  public ResponseEntity<?> checkIn(@PathVariable Long id,
-                                   @Valid @RequestBody TicketsDto ticketsDto) {
+  public ResponseEntity<?> checkIn(@PathVariable Long id) {
     LOGGER.info("PUT id=" + id);
-    client.checkIn(id, ticketsDto);
+    client.checkIn(id);
     return ResponseEntity.ok().build();
   }
 }

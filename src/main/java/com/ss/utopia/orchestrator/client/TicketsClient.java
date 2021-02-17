@@ -1,7 +1,8 @@
 package com.ss.utopia.orchestrator.client;
 
-import com.ss.utopia.lib.dto.TicketsDto;
-import com.ss.utopia.lib.model.tickets.Ticket;
+
+import com.ss.utopia.orchestrator.dto.tickets.PurchaseTicketDto;
+import com.ss.utopia.orchestrator.models.tickets.Ticket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -40,15 +41,15 @@ public class TicketsClient {
     return restTemplate.getForEntity(url, Ticket.class);
   }
 
-  public ResponseEntity<Ticket> createTicket(TicketsDto ticketsDto) {
+  public ResponseEntity<Ticket> createTicket(PurchaseTicketDto ticketsDto) {
     var url = apiHost + endpoint;
     LOGGER.info("POST " + url);
     return restTemplate.postForEntity(url, ticketsDto, Ticket.class);
   }
 
-  public void checkIn(Long id, TicketsDto ticketsDto) {
+  public void checkIn(Long id) {
     var url = apiHost + endpoint + id;
     LOGGER.info("PUT " + url);
-    restTemplate.put(url, ticketsDto);
+    restTemplate.put(url, null);
   }
 }

@@ -1,7 +1,8 @@
 package com.ss.utopia.orchestrator.client;
 
-import com.ss.utopia.lib.dto.FlightDto;
-import com.ss.utopia.lib.model.flights.Flight;
+import com.ss.utopia.orchestrator.dto.flights.flight.CreateFlightDto;
+import com.ss.utopia.orchestrator.dto.flights.flight.UpdateFlightDto;
+import com.ss.utopia.orchestrator.models.flights.flight.Flight;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -39,13 +40,13 @@ public class FlightClient {
     return restTemplate.getForEntity(url, Flight[].class);
   }
 
-  public ResponseEntity<Long> createFlight(FlightDto flightDto) {
+  public ResponseEntity<Long> createFlight(CreateFlightDto flightDto) {
     var url = apiHost + endpoint;
     LOGGER.info("POST " + url);
     return restTemplate.postForEntity(url, flightDto, Long.class);
   }
 
-  public void updateFlight(Long id, FlightDto flightDto) {
+  public void updateFlight(Long id, UpdateFlightDto flightDto) {
     var url = apiHost + endpoint + id;
     LOGGER.info("PUT " + url);
     restTemplate.put(url, flightDto);

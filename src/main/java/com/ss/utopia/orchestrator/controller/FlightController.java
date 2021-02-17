@@ -1,8 +1,9 @@
 package com.ss.utopia.orchestrator.controller;
 
-import com.ss.utopia.lib.dto.FlightDto;
-import com.ss.utopia.lib.model.flights.Flight;
 import com.ss.utopia.orchestrator.client.FlightClient;
+import com.ss.utopia.orchestrator.dto.flights.flight.CreateFlightDto;
+import com.ss.utopia.orchestrator.dto.flights.flight.UpdateFlightDto;
+import com.ss.utopia.orchestrator.models.flights.flight.Flight;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +44,7 @@ public class FlightController {
   }
 
   @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-  public ResponseEntity<Long> createFlight(@Valid @RequestBody FlightDto flightDto) {
+  public ResponseEntity<Long> createFlight(@Valid @RequestBody CreateFlightDto flightDto) {
     LOGGER.info("POST");
     return client.createFlight(flightDto);
   }
@@ -51,7 +52,7 @@ public class FlightController {
   @PutMapping(value = "/{id}",
       consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<?> updateFlight(@PathVariable Long id,
-                                        @Valid @RequestBody FlightDto flightDto) {
+                                        @Valid @RequestBody UpdateFlightDto flightDto) {
     LOGGER.info("PUT id=" + id);
     client.updateFlight(id, flightDto);
     return ResponseEntity.ok().build();

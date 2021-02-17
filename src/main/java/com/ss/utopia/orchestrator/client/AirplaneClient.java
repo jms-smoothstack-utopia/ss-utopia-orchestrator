@@ -1,7 +1,7 @@
 package com.ss.utopia.orchestrator.client;
 
-import com.ss.utopia.lib.dto.AirplaneDto;
-import com.ss.utopia.lib.model.flights.Airplane;
+import com.ss.utopia.orchestrator.dto.flights.airplane.AirplaneDto;
+import com.ss.utopia.orchestrator.models.flights.airplane.Airplane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;

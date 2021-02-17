@@ -1,0 +1,24 @@
+package com.ss.utopia.orchestrator.models.customers;
+
+import javax.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class PaymentMethod {
+
+  private Long id;
+
+  @NotNull
+  private Long ownerId;
+
+  @NotNull
+  private String accountNum;
+
+  private String notes;
+}
