@@ -1,7 +1,9 @@
 package com.ss.utopia.orchestrator.controller;
 
+import com.ss.utopia.orchestrator.client.AuthClient;
 import com.ss.utopia.orchestrator.client.CustomerClient;
-import com.ss.utopia.orchestrator.dto.customers.CustomerDto;
+import com.ss.utopia.orchestrator.dto.customers.CreateCustomerAccountDto;
+import com.ss.utopia.orchestrator.dto.customers.CustomerRecordDto;
 import com.ss.utopia.orchestrator.models.customers.Customer;
 import java.net.URI;
 import javax.validation.Valid;
@@ -24,44 +26,53 @@ public class CustomerController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
 
-  private final CustomerClient client;
+  private final CustomerClient customerClient;
+  private final AuthClient authClient;
 
-  public CustomerController(CustomerClient client) {
-    this.client = client;
+  public CustomerController(CustomerClient customerClient,
+                            AuthClient authClient) {
+    this.customerClient = customerClient;
+    this.authClient = authClient;
   }
 
   @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<Customer[]> getAll() {
     LOGGER.info("GET all");
-    return client.getAllCustomers();
+    return customerClient.getAllCustomers();
   }
 
   @GetMapping(value = "/{id}",
       produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
     LOGGER.info("GET id=" + id);
-    return client.getCustomerById(id);
+    return customerClient.getCustomerById(id);
   }
 
   @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-  public ResponseEntity<URI> createNewCustomer(@Valid @RequestBody CustomerDto customerDto) {
+  public ResponseEntity<URI> createNewCustomer(@Valid @RequestBody CreateCustomerAccountDto customerDto) {
     LOGGER.info("POST");
-    return client.createNewCustomer(customerDto);
+    var authResponse = authClient.createNewAccount(customerDto.getAccountDto());
+
+    var id = authResponse.getBody();
+    var createCustomerRecord = customerDto.getRecordDto();
+    createCustomerRecord.setId(id);
+
+    return customerClient.createNewCustomer(createCustomerRecord);
   }
 
   @PutMapping(value = "/{id}",
       consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<?> updateExisting(@PathVariable Long id,
-                                          @Valid @RequestBody CustomerDto customerDto) {
+                                          @Valid @RequestBody CustomerRecordDto customerRecordDto) {
     LOGGER.info("PUT id=" + id);
-    client.updateExisting(id, customerDto);
+    customerClient.updateExisting(id, customerRecordDto);
     return ResponseEntity.ok().build();
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<?> delete(@PathVariable Long id) {
     LOGGER.info("DELETE id=" + id);
-    client.deleteCustomer(id);
+    customerClient.deleteCustomer(id);
     return ResponseEntity.noContent().build();
   }
 }
