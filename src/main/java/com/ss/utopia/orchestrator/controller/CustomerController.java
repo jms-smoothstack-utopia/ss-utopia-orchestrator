@@ -49,7 +49,7 @@ public class CustomerController {
   }
 
   @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-  public ResponseEntity<URI> createNewCustomer(@Valid @RequestBody CreateCustomerAccountDto customerDto) {
+  public ResponseEntity<Customer> createNewCustomer(@Valid @RequestBody CreateCustomerAccountDto customerDto) {
     LOGGER.info("POST");
     var authResponse = authClient.createNewAccount(customerDto.getAccountDto());
 

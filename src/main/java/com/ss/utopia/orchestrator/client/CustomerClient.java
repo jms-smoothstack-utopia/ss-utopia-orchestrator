@@ -2,9 +2,9 @@ package com.ss.utopia.orchestrator.client;
 
 import com.ss.utopia.orchestrator.dto.customers.CreateCustomerRecordDto;
 import com.ss.utopia.orchestrator.models.customers.Customer;
-import java.net.URI;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
@@ -12,16 +12,24 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
+@Slf4j
 @ConfigurationProperties(prefix = "ss.utopia.customer", ignoreUnknownFields = false)
 public class CustomerClient {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(CustomerClient.class);
-  private final RestTemplate restTemplate;
+
   private final String endpoint = "/customers/";
   private String apiHost;
+  private RestTemplateBuilder builder;
+  private RestTemplate restTemplate;
 
-  public CustomerClient(RestTemplateBuilder restTemplateBuilder) {
-    this.restTemplate = restTemplateBuilder.build();
+  @Autowired
+  public void setBuilder(RestTemplateBuilder builder) {
+    this.builder = builder;
+  }
+
+  @PostConstruct
+  public void init() {
+    restTemplate = builder.build();
   }
 
   public void setApiHost(String apiHost) {
@@ -30,31 +38,35 @@ public class CustomerClient {
 
   public ResponseEntity<Customer[]> getAllCustomers() {
     var url = apiHost + endpoint;
-    LOGGER.info("GET " + url);
+    log.info("GET " + url);
     return restTemplate.getForEntity(url, Customer[].class);
   }
 
   public ResponseEntity<Customer> getCustomerById(Long id) {
     var url = apiHost + endpoint + id;
-    LOGGER.info("GET " + url);
+    log.info("GET " + url);
     return restTemplate.getForEntity(url, Customer.class);
   }
 
-  public ResponseEntity<URI> createNewCustomer(CreateCustomerRecordDto createCustomerRecordDto) {
+  public ResponseEntity<Customer> createNewCustomer(CreateCustomerRecordDto createCustomerRecordDto) {
     var url = apiHost + endpoint;
-    LOGGER.info("POST " + url);
-    return restTemplate.postForEntity(url, createCustomerRecordDto, URI.class);
+    log.info("POST " + url);
+    return restTemplate.postForEntity(url, createCustomerRecordDto, Customer.class);
   }
 
   public void updateExisting(Long id, CreateCustomerRecordDto createCustomerRecordDto) {
     var url = apiHost + endpoint + id;
-    LOGGER.info("PUT " + url);
+    log.info("PUT " + url);
     restTemplate.put(url, createCustomerRecordDto);
   }
 
   public void deleteCustomer(Long id) {
     var url = apiHost + endpoint + id;
-    LOGGER.info("DELETE " + url);
+    log.info("DELETE " + url);
     restTemplate.delete(url);
+  }
+
+  public String getEndpoint() {
+    return this.endpoint;
   }
 }

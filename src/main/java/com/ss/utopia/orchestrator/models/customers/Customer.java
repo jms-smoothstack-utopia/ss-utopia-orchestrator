@@ -1,6 +1,7 @@
 package com.ss.utopia.orchestrator.models.customers;
 
 import java.util.Set;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +15,7 @@ import lombok.ToString;
 @Builder
 public class Customer {
 
-  private Long id;
+  private UUID id;
 
   private String firstName;
 
@@ -23,6 +24,10 @@ public class Customer {
   private String email;
 
   private Set<Address> addresses;
+
+  private String phoneNumber;
+
+  private Integer loyaltyPoints;
 
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
