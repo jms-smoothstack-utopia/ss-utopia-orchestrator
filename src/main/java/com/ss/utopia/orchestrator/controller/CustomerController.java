@@ -3,7 +3,7 @@ package com.ss.utopia.orchestrator.controller;
 import com.ss.utopia.orchestrator.client.AuthClient;
 import com.ss.utopia.orchestrator.client.CustomerClient;
 import com.ss.utopia.orchestrator.dto.customers.CreateCustomerAccountDto;
-import com.ss.utopia.orchestrator.dto.customers.CustomerRecordDto;
+import com.ss.utopia.orchestrator.dto.customers.CreateCustomerRecordDto;
 import com.ss.utopia.orchestrator.models.customers.Customer;
 import java.net.URI;
 import javax.validation.Valid;
@@ -63,9 +63,9 @@ public class CustomerController {
   @PutMapping(value = "/{id}",
       consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<?> updateExisting(@PathVariable Long id,
-                                          @Valid @RequestBody CustomerRecordDto customerRecordDto) {
+                                          @Valid @RequestBody CreateCustomerRecordDto createCustomerRecordDto) {
     LOGGER.info("PUT id=" + id);
-    customerClient.updateExisting(id, customerRecordDto);
+    customerClient.updateExisting(id, createCustomerRecordDto);
     return ResponseEntity.ok().build();
   }
 

@@ -12,6 +12,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ * For creating an account and customer record.
+ * <p>
+ * Can be broken down into the individual DTOs for account creation with the auth service and
+ * customer profile/record creation with the customers service.
+ * @see #getAccountDto()
+ * @see #getRecordDto()
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -70,8 +78,8 @@ public class CreateCustomerAccountDto {
         .build();
   }
 
-  public CustomerRecordDto getRecordDto() {
-    return CustomerRecordDto.builder()
+  public CreateCustomerRecordDto getRecordDto() {
+    return CreateCustomerRecordDto.builder()
         .email(email)
         .firstName(firstName)
         .lastName(lastName)

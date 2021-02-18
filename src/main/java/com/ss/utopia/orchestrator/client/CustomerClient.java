@@ -1,6 +1,6 @@
 package com.ss.utopia.orchestrator.client;
 
-import com.ss.utopia.orchestrator.dto.customers.CustomerRecordDto;
+import com.ss.utopia.orchestrator.dto.customers.CreateCustomerRecordDto;
 import com.ss.utopia.orchestrator.models.customers.Customer;
 import java.net.URI;
 import org.slf4j.Logger;
@@ -40,16 +40,16 @@ public class CustomerClient {
     return restTemplate.getForEntity(url, Customer.class);
   }
 
-  public ResponseEntity<URI> createNewCustomer(CustomerRecordDto customerRecordDto) {
+  public ResponseEntity<URI> createNewCustomer(CreateCustomerRecordDto createCustomerRecordDto) {
     var url = apiHost + endpoint;
     LOGGER.info("POST " + url);
-    return restTemplate.postForEntity(url, customerRecordDto, URI.class);
+    return restTemplate.postForEntity(url, createCustomerRecordDto, URI.class);
   }
 
-  public void updateExisting(Long id, CustomerRecordDto customerRecordDto) {
+  public void updateExisting(Long id, CreateCustomerRecordDto createCustomerRecordDto) {
     var url = apiHost + endpoint + id;
     LOGGER.info("PUT " + url);
-    restTemplate.put(url, customerRecordDto);
+    restTemplate.put(url, createCustomerRecordDto);
   }
 
   public void deleteCustomer(Long id) {

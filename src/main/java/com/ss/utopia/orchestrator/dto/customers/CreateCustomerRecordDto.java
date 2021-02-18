@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CustomerRecordDto {
+public class CreateCustomerRecordDto {
 
   private UUID id;
   private String firstName;
