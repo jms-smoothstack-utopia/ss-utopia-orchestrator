@@ -16,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
 @ConfigurationProperties(prefix = "ss.utopia.auth", ignoreUnknownFields = false)
 public class AuthClient {
 
-  private final String endpoint = "/accounts/";
+  private final String endpoint = "/accounts";
   private String apiHost;
   private RestTemplateBuilder builder;
   private RestTemplate restTemplate;
