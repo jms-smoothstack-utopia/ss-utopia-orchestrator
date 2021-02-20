@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.ss.utopia.orchestrator.dto.auth.CreateUserAccountDto;
+import com.ss.utopia.orchestrator.dto.accounts.CreateUserAccountDto;
 import java.net.URI;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,18 +15,18 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-class AuthClientTest {
+class AccountsClientTest {
 
   RestTemplateBuilder mockBuilder = Mockito.mock(RestTemplateBuilder.class);
   RestTemplate mockRestTemplate = Mockito.mock(RestTemplate.class);
-  AuthClient clientToTest;
+  AccountsClient clientToTest;
   String mockApiHost = "/api/testing";
 
   @BeforeEach
   void beforeEach() {
     when(mockBuilder.build())
         .thenReturn(mockRestTemplate);
-    clientToTest = new AuthClient();
+    clientToTest = new AccountsClient();
     clientToTest.setBuilder(mockBuilder);
     clientToTest.init();
     verify(mockBuilder).build();

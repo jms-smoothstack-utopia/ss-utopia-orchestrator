@@ -1,4 +1,4 @@
-package com.ss.utopia.orchestrator.dto.auth;
+package com.ss.utopia.orchestrator.dto.accounts;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

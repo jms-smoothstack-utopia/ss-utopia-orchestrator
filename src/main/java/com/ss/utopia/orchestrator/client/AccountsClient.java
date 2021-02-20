@@ -1,7 +1,7 @@
 package com.ss.utopia.orchestrator.client;
 
-import com.ss.utopia.orchestrator.controller.EndpointConstants;
-import com.ss.utopia.orchestrator.dto.auth.AuthDto;
+import com.ss.utopia.orchestrator.dto.accounts.CreateUserAccountDto;
+import java.util.UUID;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +13,10 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 @Slf4j
-@ConfigurationProperties(prefix = "ss.utopia.auth", ignoreUnknownFields = false)
-public class AuthClient {
+@ConfigurationProperties(prefix = "ss.utopia.accounts", ignoreUnknownFields = false)
+public class AccountsClient {
 
-  private final String endpoint = EndpointConstants.AUTHENTICATE_ENDPOINT;
+  private final String endpoint = "/accounts";
   private String apiHost;
   private RestTemplateBuilder builder;
   private RestTemplate restTemplate;
@@ -39,9 +39,15 @@ public class AuthClient {
     return endpoint;
   }
 
-  public ResponseEntity<String> authenticate(AuthDto authDto) {
+  public ResponseEntity<UUID> createNewAccount(CreateUserAccountDto dto) {
     var url = apiHost + endpoint;
-    log.debug("POST " + url);
-    return restTemplate.postForEntity(url, authDto, String.class);
+    log.info("POST " + url);
+    return restTemplate.postForEntity(url, dto, UUID.class);
+  }
+
+  public ResponseEntity<String> testAuth() {
+    var url = apiHost + endpoint + "/test";
+    log.info("GET " + url);
+    return restTemplate.getForEntity(url, String.class);
   }
 }

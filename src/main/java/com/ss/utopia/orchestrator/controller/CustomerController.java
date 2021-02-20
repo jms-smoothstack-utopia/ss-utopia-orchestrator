@@ -1,11 +1,10 @@
 package com.ss.utopia.orchestrator.controller;
 
-import com.ss.utopia.orchestrator.client.AuthClient;
+import com.ss.utopia.orchestrator.client.AccountsClient;
 import com.ss.utopia.orchestrator.client.CustomerClient;
 import com.ss.utopia.orchestrator.dto.customers.CreateCustomerAccountDto;
 import com.ss.utopia.orchestrator.dto.customers.CreateCustomerRecordDto;
 import com.ss.utopia.orchestrator.models.customers.Customer;
-import java.net.URI;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,12 +26,12 @@ public class CustomerController {
   private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
 
   private final CustomerClient customerClient;
-  private final AuthClient authClient;
+  private final AccountsClient accountsClient;
 
   public CustomerController(CustomerClient customerClient,
-                            AuthClient authClient) {
+                            AccountsClient accountsClient) {
     this.customerClient = customerClient;
-    this.authClient = authClient;
+    this.accountsClient = accountsClient;
   }
 
   @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
@@ -51,7 +50,7 @@ public class CustomerController {
   @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<Customer> createNewCustomer(@Valid @RequestBody CreateCustomerAccountDto customerDto) {
     LOGGER.info("POST");
-    var authResponse = authClient.createNewAccount(customerDto.getAccountDto());
+    var authResponse = accountsClient.createNewAccount(customerDto.getAccountDto());
 
     var id = authResponse.getBody();
     var createCustomerRecord = customerDto.getRecordDto();
