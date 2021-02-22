@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/tickets")
+@RequestMapping(EndpointConstants.TICKETS_ENDPOINT)
 public class TicketsController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TicketsController.class);

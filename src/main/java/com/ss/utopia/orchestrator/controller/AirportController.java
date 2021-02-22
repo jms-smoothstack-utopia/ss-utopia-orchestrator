@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/airport")
+@RequestMapping(EndpointConstants.AIRPORTS_ENDPOINT)
 public class AirportController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(AirportController.class);

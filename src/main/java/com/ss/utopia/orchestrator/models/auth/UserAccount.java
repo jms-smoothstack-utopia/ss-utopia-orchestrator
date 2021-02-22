@@ -1,9 +1,9 @@
 package com.ss.utopia.orchestrator.models.auth;
 
 import java.time.ZonedDateTime;
+import java.util.UUID;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +17,7 @@ import lombok.ToString;
 @Builder
 public class UserAccount {
 
-  private Long id;
+  private UUID id;
 
   @NotBlank
   @Email
@@ -28,11 +28,14 @@ public class UserAccount {
   @NotBlank
   private String hashedPassword;
 
-  @NotNull
-  @EqualsAndHashCode.Exclude
-  private ZonedDateTime creationDateTime = ZonedDateTime.now();
-
+  @Builder.Default
   private boolean isConfirmed = false;
 
+  @Builder.Default
   private UserRole userRole = UserRole.DEFAULT;
+
+  private ZonedDateTime creationDateTime;
+
+  private ZonedDateTime lastModifiedDateTime;
+
 }
