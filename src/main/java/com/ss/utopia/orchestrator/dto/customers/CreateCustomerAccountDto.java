@@ -1,6 +1,6 @@
 package com.ss.utopia.orchestrator.dto.customers;
 
-import com.ss.utopia.orchestrator.dto.auth.CreateUserAccountDto;
+import com.ss.utopia.orchestrator.dto.accounts.CreateUserAccountDto;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

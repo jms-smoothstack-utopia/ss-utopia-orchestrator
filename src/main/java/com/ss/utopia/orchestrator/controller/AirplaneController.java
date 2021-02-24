@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/airplane")
+@RequestMapping(EndpointConstants.AIRPLANES_ENDPOINT)
 public class AirplaneController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(AirplaneController.class);

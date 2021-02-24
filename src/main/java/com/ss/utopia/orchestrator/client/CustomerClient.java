@@ -1,7 +1,9 @@
 package com.ss.utopia.orchestrator.client;
 
+import com.ss.utopia.orchestrator.controller.EndpointConstants;
 import com.ss.utopia.orchestrator.dto.customers.CreateCustomerRecordDto;
 import com.ss.utopia.orchestrator.models.customers.Customer;
+import java.util.UUID;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
 public class CustomerClient {
 
 
-  private final String endpoint = "/customers/";
+  private final String endpoint = EndpointConstants.CUSTOMERS_ENDPOINT;
   private String apiHost;
   private RestTemplateBuilder builder;
   private RestTemplate restTemplate;
@@ -42,8 +44,8 @@ public class CustomerClient {
     return restTemplate.getForEntity(url, Customer[].class);
   }
 
-  public ResponseEntity<Customer> getCustomerById(Long id) {
-    var url = apiHost + endpoint + id;
+  public ResponseEntity<Customer> getCustomerById(UUID id) {
+    var url = apiHost + endpoint + "/" + id;
     log.info("GET " + url);
     return restTemplate.getForEntity(url, Customer.class);
   }
@@ -54,14 +56,14 @@ public class CustomerClient {
     return restTemplate.postForEntity(url, createCustomerRecordDto, Customer.class);
   }
 
-  public void updateExisting(Long id, CreateCustomerRecordDto createCustomerRecordDto) {
-    var url = apiHost + endpoint + id;
+  public void updateExisting(UUID id, CreateCustomerRecordDto createCustomerRecordDto) {
+    var url = apiHost + endpoint + "/" + id;
     log.info("PUT " + url);
     restTemplate.put(url, createCustomerRecordDto);
   }
 
-  public void deleteCustomer(Long id) {
-    var url = apiHost + endpoint + id;
+  public void deleteCustomer(UUID id) {
+    var url = apiHost + endpoint + "/" + id;
     log.info("DELETE " + url);
     restTemplate.delete(url);
   }

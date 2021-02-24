@@ -1,11 +1,11 @@
 package com.ss.utopia.orchestrator.controller;
 
-import com.ss.utopia.orchestrator.client.AuthClient;
+import com.ss.utopia.orchestrator.client.AccountsClient;
 import com.ss.utopia.orchestrator.client.CustomerClient;
 import com.ss.utopia.orchestrator.dto.customers.CreateCustomerAccountDto;
 import com.ss.utopia.orchestrator.dto.customers.CreateCustomerRecordDto;
 import com.ss.utopia.orchestrator.models.customers.Customer;
-import java.net.URI;
+import java.util.UUID;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,18 +21,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/customers")
+@RequestMapping(EndpointConstants.CUSTOMERS_ENDPOINT)
 public class CustomerController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
 
   private final CustomerClient customerClient;
-  private final AuthClient authClient;
+  private final AccountsClient accountsClient;
 
   public CustomerController(CustomerClient customerClient,
-                            AuthClient authClient) {
+                            AccountsClient accountsClient) {
     this.customerClient = customerClient;
-    this.authClient = authClient;
+    this.accountsClient = accountsClient;
   }
 
   @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
@@ -43,7 +43,7 @@ public class CustomerController {
 
   @GetMapping(value = "/{id}",
       produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-  public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
+  public ResponseEntity<Customer> getCustomerById(@PathVariable UUID id) {
     LOGGER.info("GET id=" + id);
     return customerClient.getCustomerById(id);
   }
@@ -51,7 +51,7 @@ public class CustomerController {
   @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<Customer> createNewCustomer(@Valid @RequestBody CreateCustomerAccountDto customerDto) {
     LOGGER.info("POST");
-    var authResponse = authClient.createNewAccount(customerDto.getAccountDto());
+    var authResponse = accountsClient.createNewAccount(customerDto.getAccountDto());
 
     var id = authResponse.getBody();
     var createCustomerRecord = customerDto.getRecordDto();
@@ -62,7 +62,7 @@ public class CustomerController {
 
   @PutMapping(value = "/{id}",
       consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-  public ResponseEntity<?> updateExisting(@PathVariable Long id,
+  public ResponseEntity<?> updateExisting(@PathVariable UUID id,
                                           @Valid @RequestBody CreateCustomerRecordDto createCustomerRecordDto) {
     LOGGER.info("PUT id=" + id);
     customerClient.updateExisting(id, createCustomerRecordDto);
@@ -70,7 +70,7 @@ public class CustomerController {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<?> delete(@PathVariable Long id) {
+  public ResponseEntity<?> delete(@PathVariable UUID id) {
     LOGGER.info("DELETE id=" + id);
     customerClient.deleteCustomer(id);
     return ResponseEntity.noContent().build();
