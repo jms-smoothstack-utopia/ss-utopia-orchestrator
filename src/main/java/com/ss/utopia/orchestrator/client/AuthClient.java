@@ -44,10 +44,4 @@ public class AuthClient {
     log.debug("POST " + url);
     return restTemplate.postForEntity(url, authDto, String.class);
   }
-
-  public ResponseEntity<String> setPasswordResetToken(String emailObject) {
-    var url = apiHost + "/api/v0.1/accounts" + "/password-reset";
-    log.debug("Post: " + url + ". Trying to initiate password reset");
-    return restTemplate.postForEntity(url, emailObject, String.class );
-  }
 }

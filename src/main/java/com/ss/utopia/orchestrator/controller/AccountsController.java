@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -37,5 +38,10 @@ public class AccountsController {
   @PostMapping(value= "/new-password", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<String> updatePassword(@Valid @RequestBody NewPasswordDto newPasswordDto){
     return accountsClient.updatePassword(newPasswordDto);
+  }
+
+  @GetMapping(value= "/new-password/{token}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+  public ResponseEntity<String> checkToken(@PathVariable String token){
+    return accountsClient.checkToken(token);
   }
 }

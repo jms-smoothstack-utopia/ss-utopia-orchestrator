@@ -75,4 +75,10 @@ public class AccountsClient {
     log.debug("Post: " + url + ". Changing password for this user who had this token");
     return restTemplate.postForEntity(url, newPasswordDto, String.class);
   }
+
+  public ResponseEntity<String> checkToken(String token) {
+    var url = apiHost + endpoint + "/new-password/" + token;
+    log.debug("Get: " + url + ". Checking if a token is valid");
+    return restTemplate.getForEntity(url, String.class);
+  }
 }
