@@ -59,4 +59,10 @@ public class AccountsClient {
     return restTemplate.postForEntity(url, dto, UUID.class);
   }
 
+
+  public void confirmAccountRegistration(UUID confirmationTokenId) {
+    var url = apiHost + endpoint + "/confirm/" + confirmationTokenId;
+    log.info("PUT " + url);
+    restTemplate.put(url, "");
+  }
 }
