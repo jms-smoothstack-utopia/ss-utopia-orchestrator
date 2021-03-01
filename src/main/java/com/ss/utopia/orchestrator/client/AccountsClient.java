@@ -5,6 +5,8 @@ import com.ss.utopia.orchestrator.dto.accounts.CreateUserAccountDto;
 import com.ss.utopia.orchestrator.security.SecurityConstants;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -16,12 +18,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-@Component
 @Slf4j
+@Component
 @ConfigurationProperties(prefix = "ss.utopia.accounts", ignoreUnknownFields = false)
 public class AccountsClient {
 
+  @Getter
   private final String endpoint = EndpointConstants.ACCOUNTS_ENDPOINT;
+  @Setter
   private String apiHost;
   private RestTemplateBuilder builder;
   private RestTemplate restTemplate;
@@ -34,14 +38,6 @@ public class AccountsClient {
   @PostConstruct
   public void init() {
     restTemplate = builder.build();
-  }
-
-  public void setApiHost(String apiHost) {
-    this.apiHost = apiHost;
-  }
-
-  public String getEndpoint() {
-    return endpoint;
   }
 
   public ResponseEntity<String> testMethod(String authHeader) {
