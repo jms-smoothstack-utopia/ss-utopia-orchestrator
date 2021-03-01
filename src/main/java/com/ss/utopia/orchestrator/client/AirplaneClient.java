@@ -1,60 +1,69 @@
 package com.ss.utopia.orchestrator.client;
 
+import com.ss.utopia.orchestrator.controller.EndpointConstants;
 import com.ss.utopia.orchestrator.dto.flights.airplane.AirplaneDto;
 import com.ss.utopia.orchestrator.models.flights.airplane.Airplane;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.annotation.PostConstruct;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+@Slf4j
 @Component
 @ConfigurationProperties(prefix = "ss.utopia.airplane", ignoreUnknownFields = false)
 public class AirplaneClient {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(AirplaneClient.class);
-  private final RestTemplate restTemplate;
-  private final String endpoint = "/airplane/";
+  @Getter
+  private final String endpoint = EndpointConstants.AIRPLANES_ENDPOINT;
+  @Setter
   private String apiHost;
+  private RestTemplateBuilder builder;
+  private RestTemplate restTemplate;
 
-  public AirplaneClient(RestTemplateBuilder restTemplateBuilder) {
-    this.restTemplate = restTemplateBuilder.build();
+  @Autowired
+  public void setBuilder(RestTemplateBuilder builder) {
+    this.builder = builder;
   }
 
-  public void setApiHost(String apiHost) {
-    this.apiHost = apiHost;
+  @PostConstruct
+  public void init() {
+    restTemplate = builder.build();
   }
 
   public ResponseEntity<Airplane> getAirplaneById(Long id) {
     var url = apiHost + endpoint + id;
-    LOGGER.info("GET " + url);
+    log.info("GET " + url);
     return restTemplate.getForEntity(url, Airplane.class);
   }
 
   public ResponseEntity<Airplane[]> getAllAirplanes() {
     var url = apiHost + endpoint;
-    LOGGER.info("GET " + url);
+    log.info("GET " + url);
     return restTemplate.getForEntity(url, Airplane[].class);
   }
 
   public ResponseEntity<Long> createAirplane(AirplaneDto airplaneDto) {
     var url = apiHost + endpoint;
-    LOGGER.info("POST " + url);
+    log.info("POST " + url);
     return restTemplate.postForEntity(url, airplaneDto, Long.class);
   }
 
 
   public void updateAirplane(Long id, AirplaneDto airplaneDto) {
     var url = apiHost + endpoint + id;
-    LOGGER.info("PUT " + url);
+    log.info("PUT " + url);
     restTemplate.put(url, airplaneDto);
   }
 
   public void deleteAirplane(Long id) {
     var url = apiHost + endpoint + id;
-    LOGGER.info("DELETE " + url);
+    log.info("DELETE " + url);
     restTemplate.delete(url);
   }
 }

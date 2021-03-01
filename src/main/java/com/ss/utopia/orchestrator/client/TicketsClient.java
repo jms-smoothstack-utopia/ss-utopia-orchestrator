@@ -1,55 +1,62 @@
 package com.ss.utopia.orchestrator.client;
 
-
+import com.ss.utopia.orchestrator.controller.EndpointConstants;
 import com.ss.utopia.orchestrator.dto.tickets.PurchaseTicketDto;
 import com.ss.utopia.orchestrator.models.tickets.Ticket;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.annotation.PostConstruct;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+@Slf4j
 @Component
 @ConfigurationProperties(prefix = "ss.utopia.ticket", ignoreUnknownFields = false)
 public class TicketsClient {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(TicketsClient.class);
-  private final RestTemplate restTemplate;
-  private final String endpoint = "/tickets/";
+  @Getter
+  private final String endpoint = EndpointConstants.TICKETS_ENDPOINT;
+  @Setter
   private String apiHost;
+  private RestTemplateBuilder builder;
+  private RestTemplate restTemplate;
 
-  public TicketsClient(RestTemplateBuilder restTemplateBuilder) {
-    this.restTemplate = restTemplateBuilder.build();
+  @Autowired
+  public void setBuilder(RestTemplateBuilder builder) {
+    this.builder = builder;
   }
 
-  public void setApiHost(String apiHost) {
-    this.apiHost = apiHost;
+  @PostConstruct
+  public void init() {
+    restTemplate = builder.build();
   }
-
 
   public ResponseEntity<Ticket[]> getAllTickets() {
     var url = apiHost + endpoint;
-    LOGGER.info("GET " + url);
+    log.info("GET " + url);
     return restTemplate.getForEntity(url, Ticket[].class);
   }
 
   public ResponseEntity<Ticket> getTicketById(Long id) {
     var url = apiHost + endpoint + id;
-    LOGGER.info("GET " + url);
+    log.info("GET " + url);
     return restTemplate.getForEntity(url, Ticket.class);
   }
 
   public ResponseEntity<Ticket> createTicket(PurchaseTicketDto ticketsDto) {
     var url = apiHost + endpoint;
-    LOGGER.info("POST " + url);
+    log.info("POST " + url);
     return restTemplate.postForEntity(url, ticketsDto, Ticket.class);
   }
 
   public void checkIn(Long id) {
     var url = apiHost + endpoint + id;
-    LOGGER.info("PUT " + url);
+    log.info("PUT " + url);
     restTemplate.put(url, null);
   }
 }
