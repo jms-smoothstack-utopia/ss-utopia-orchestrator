@@ -25,6 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.POST, EndpointConstants.AUTHENTICATE_ENDPOINT).permitAll()
         .antMatchers(HttpMethod.POST, EndpointConstants.ACCOUNTS_ENDPOINT).permitAll()
         .antMatchers(HttpMethod.PUT, EndpointConstants.ACCOUNTS_ENDPOINT + "/confirm/**").permitAll()
+        .antMatchers("/api-docs/**").permitAll()
         //todo these need role lockdowns, but for now permit all
         .antMatchers(
             EndpointConstants.AIRPLANES_ENDPOINT,
