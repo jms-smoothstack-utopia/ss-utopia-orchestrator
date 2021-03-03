@@ -71,7 +71,7 @@ class CustomerClientTest {
         .lastName(dto.getLastName())
         .email(dto.getEmail())
         .phoneNumber(dto.getPhoneNumber())
-        .loyaltyPoints(0)
+        .loyaltyPoints(0)						//zero by default
         .addresses(Set.of(Address.builder()
                               .id(1L)
                               .cardinality(1)
@@ -82,6 +82,8 @@ class CustomerClientTest {
                               .zipcode(dto.getZipcode())
                               .build()))
         .paymentMethods(Collections.emptySet())
+        .ticketEmails(dto.getTicketEmails())	//true by default
+        .flightEmails(dto.getFlightEmails())	//true by default
         .build();
 
     var mockResponse = ResponseEntity

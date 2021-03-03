@@ -5,9 +5,10 @@ import com.ss.utopia.orchestrator.dto.accounts.CreateUserAccountDto;
 import com.ss.utopia.orchestrator.dto.accounts.NewPasswordDto;
 import com.ss.utopia.orchestrator.dto.accounts.ResetPasswordDto;
 import com.ss.utopia.orchestrator.security.SecurityConstants;
-import java.util.Map;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -19,12 +20,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-@Component
 @Slf4j
+@Component
 @ConfigurationProperties(prefix = "ss.utopia.accounts", ignoreUnknownFields = false)
 public class AccountsClient {
 
+  @Getter
   private final String endpoint = EndpointConstants.ACCOUNTS_ENDPOINT;
+  @Setter
   private String apiHost;
   private RestTemplateBuilder builder;
   private RestTemplate restTemplate;
@@ -37,14 +40,6 @@ public class AccountsClient {
   @PostConstruct
   public void init() {
     restTemplate = builder.build();
-  }
-
-  public void setApiHost(String apiHost) {
-    this.apiHost = apiHost;
-  }
-
-  public String getEndpoint() {
-    return endpoint;
   }
 
   public ResponseEntity<String> testMethod(String authHeader) {
@@ -62,12 +57,13 @@ public class AccountsClient {
     return restTemplate.postForEntity(url, dto, UUID.class);
   }
 
+
   public ResponseEntity<String> setPasswordResetToken(String emailObject) {
     var url = apiHost + endpoint + "/password-reset";
     log.debug("Post: " + url + ". Trying to initiate password reset");
     ResetPasswordDto emailToCheck = new ResetPasswordDto();
     emailToCheck.setEmail(emailObject);
-    return restTemplate.postForEntity(url, emailToCheck, String.class );
+    return restTemplate.postForEntity(url, emailToCheck, String.class);
   }
 
   public ResponseEntity<String> updatePassword(NewPasswordDto newPasswordDto) {
@@ -80,5 +76,12 @@ public class AccountsClient {
     var url = apiHost + endpoint + "/new-password/" + token;
     log.debug("Get: " + url + ". Checking if a token is valid");
     return restTemplate.getForEntity(url, String.class);
+
+  }
+
+  public void confirmAccountRegistration(UUID confirmationTokenId) {
+    var url = apiHost + endpoint + "/confirm/" + confirmationTokenId;
+    log.info("PUT " + url);
+    restTemplate.put(url, "");
   }
 }

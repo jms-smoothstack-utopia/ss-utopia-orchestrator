@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@RequiredArgsConstructor
-@CrossOrigin
 @RestController
+@CrossOrigin
+@RequiredArgsConstructor
 @RequestMapping(EndpointConstants.AUTHENTICATE_ENDPOINT)
 public class AuthController {
 

@@ -28,6 +28,10 @@ public class Customer {
   private String phoneNumber;
 
   private Integer loyaltyPoints;
+  
+  private Boolean ticketEmails;
+  
+  private Boolean flightEmails;
 
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
