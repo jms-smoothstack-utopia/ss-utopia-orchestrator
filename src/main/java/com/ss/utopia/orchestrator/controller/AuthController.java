@@ -2,7 +2,6 @@ package com.ss.utopia.orchestrator.controller;
 
 import com.ss.utopia.orchestrator.client.AuthClient;
 import com.ss.utopia.orchestrator.dto.auth.AuthDto;
-import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
-@RequestMapping(EndpointConstants.AUTHENTICATE_ENDPOINT)
+@RequestMapping(GatewayConstants.AUTHENTICATE)
 public class AuthController {
 
   private final AuthClient authClient;

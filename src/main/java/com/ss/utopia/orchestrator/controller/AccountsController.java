@@ -1,6 +1,6 @@
 package com.ss.utopia.orchestrator.controller;
 
-import com.ss.utopia.orchestrator.client.AccountsClient;
+import com.ss.utopia.orchestrator.client.AuthClient;
 import com.ss.utopia.orchestrator.dto.accounts.NewPasswordDto;
 import com.ss.utopia.orchestrator.security.SecurityConstants;
 import java.util.UUID;
@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
-@RequestMapping(EndpointConstants.ACCOUNTS_ENDPOINT)
+@RequestMapping(GatewayConstants.ACCOUNTS)
 public class AccountsController {
 
-  private final AccountsClient accountsClient;
+  private final AuthClient accountsClient;
 
   @GetMapping("/test")
   public ResponseEntity<String> testMethod(

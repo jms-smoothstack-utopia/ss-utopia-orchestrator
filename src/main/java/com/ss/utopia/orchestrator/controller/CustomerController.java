@@ -1,6 +1,6 @@
 package com.ss.utopia.orchestrator.controller;
 
-import com.ss.utopia.orchestrator.client.AccountsClient;
+import com.ss.utopia.orchestrator.client.AuthClient;
 import com.ss.utopia.orchestrator.client.CustomerClient;
 import com.ss.utopia.orchestrator.dto.customers.CreateCustomerAccountDto;
 import com.ss.utopia.orchestrator.dto.customers.CreateCustomerRecordDto;
@@ -25,11 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
-@RequestMapping(EndpointConstants.CUSTOMERS_ENDPOINT)
+@RequestMapping(GatewayConstants.CUSTOMERS)
 public class CustomerController {
 
+  private final AuthClient accountsClient;
   private final CustomerClient customerClient;
-  private final AccountsClient accountsClient;
 
   @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
   public ResponseEntity<Customer[]> getAll() {

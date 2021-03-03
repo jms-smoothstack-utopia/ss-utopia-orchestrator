@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
-@RequestMapping(EndpointConstants.FLIGHTS_ENDPOINT)
+@RequestMapping(GatewayConstants.FLIGHTS)
 public class FlightController {
 
   private final FlightClient client;

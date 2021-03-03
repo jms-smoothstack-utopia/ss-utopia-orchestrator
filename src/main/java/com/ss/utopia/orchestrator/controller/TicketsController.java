@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
-@RequestMapping(EndpointConstants.TICKETS_ENDPOINT)
+@RequestMapping(GatewayConstants.TICKETS)
 public class TicketsController {
 
   private final TicketsClient client;
