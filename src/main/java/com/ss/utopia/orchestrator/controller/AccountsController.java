@@ -28,12 +28,12 @@ public class AccountsController {
 
   private final AuthClient accountsClient;
 
-  @GetMapping("/test")
-  public ResponseEntity<String> testMethod(
-      @RequestHeader(SecurityConstants.JWT_HEADER_NAME) String authHeader) {
-    log.info("GET test");
-    return accountsClient.testMethod(authHeader);
-  }
+//  @GetMapping("/test")
+//  public ResponseEntity<String> testMethod(
+//      @RequestHeader(SecurityConstants.JWT_HEADER_NAME) String authHeader) {
+//    log.info("GET test");
+//    return accountsClient.testMethod(authHeader);
+//  }
 
   @PostMapping(value = "/password-reset",
       produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})

@@ -1,6 +1,7 @@
 package com.ss.utopia.orchestrator.security;
 
 import com.ss.utopia.orchestrator.controller.GatewayConstants;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -13,33 +14,25 @@ import org.springframework.web.cors.CorsUtils;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+  private final SecurityConstants securityConstants;
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
-        .csrf().disable()
+        .cors().and().csrf().disable()
         .authorizeRequests()
         .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
         .requestMatchers(CorsUtils::isCorsRequest).permitAll()
-        .antMatchers(HttpMethod.POST, GatewayConstants.AUTHENTICATE).permitAll()
-        .antMatchers(HttpMethod.POST, GatewayConstants.ACCOUNTS).permitAll()
+        .antMatchers(securityConstants.getEndpoint()).permitAll()
         .antMatchers(HttpMethod.PUT, GatewayConstants.ACCOUNTS + "/confirm/**").permitAll()
-        .antMatchers("/api-docs/**").permitAll()
-        //todo these need role lockdowns, but for now permit all
-        .antMatchers(
-            GatewayConstants.AIRPLANES,
-            GatewayConstants.AIRPORTS,
-            GatewayConstants.CUSTOMERS,
-            GatewayConstants.FLIGHTS,
-            GatewayConstants.TICKETS
-        ).permitAll()
         .anyRequest().authenticated()
         .and()
-        .addFilter(new JwtAuthenticationVerificationFilter(authenticationManager()))
+        .addFilter(new JwtAuthenticationVerificationFilter(authenticationManagerBean(), securityConstants))
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     ;
-
   }
 
   @Bean
@@ -48,3 +41,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return super.authenticationManagerBean();
   }
 }
+

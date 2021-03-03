@@ -20,8 +20,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtAuthenticationVerificationFilter extends BasicAuthenticationFilter {
 
-  public JwtAuthenticationVerificationFilter(AuthenticationManager authenticationManager) {
+  private  final SecurityConstants securityConstants;
+
+  public JwtAuthenticationVerificationFilter(AuthenticationManager authenticationManager,
+                                             SecurityConstants securityConstants) {
     super(authenticationManager);
+    this.securityConstants = securityConstants;
   }
 
   @Override
@@ -29,9 +33,9 @@ public class JwtAuthenticationVerificationFilter extends BasicAuthenticationFilt
                                   HttpServletResponse response,
                                   FilterChain chain) throws IOException, ServletException {
     try {
-      var header = request.getHeader(SecurityConstants.JWT_HEADER_NAME);
+      var header = request.getHeader(securityConstants.getJwtHeaderName());
 
-      if (header != null && header.startsWith(SecurityConstants.JWT_HEADER_PREFIX)) {
+      if (header != null && header.startsWith(securityConstants.getJwtHeaderPrefix())) {
         var authToken = getAuthenticationToken(request);
         SecurityContextHolder.getContext().setAuthentication(authToken);
         log.debug("Auth success.");
@@ -45,12 +49,12 @@ public class JwtAuthenticationVerificationFilter extends BasicAuthenticationFilt
   }
 
   private UsernamePasswordAuthenticationToken getAuthenticationToken(HttpServletRequest request) {
-    var token = request.getHeader(SecurityConstants.JWT_HEADER_NAME);
+    var token = request.getHeader(securityConstants.getJwtHeaderName());
     if (token != null) {
       //todo get roles from jwt?
-      var subject = JWT.require(Algorithm.HMAC512(SecurityConstants.JWT_SECRET))
+      var subject = JWT.require(Algorithm.HMAC512(securityConstants.getJwtSecret()))
           .build()
-          .verify(token.replace(SecurityConstants.JWT_HEADER_PREFIX, ""))
+          .verify(token.replace(securityConstants.getJwtHeaderPrefix(), ""))
           .getSubject();
       if (subject != null) {
         return new UsernamePasswordAuthenticationToken(subject, null, Collections.emptySet());

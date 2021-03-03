@@ -1,5 +1,7 @@
 package com.ss.utopia.orchestrator.exception;
 
+import feign.FeignException;
+import feign.FeignException.FeignClientException;
 import java.net.ConnectException;
 import java.util.HashMap;
 import java.util.Map;
@@ -70,5 +72,11 @@ public class ExceptionControllerAdvisor {
   private ResponseEntity<?> connectException(ConnectException ex) {
     LOGGER.error(ex.getMessage());
     return ResponseEntity.status(500).build();
+  }
+
+  @ResponseStatus(HttpStatus.FORBIDDEN)
+  @ExceptionHandler(FeignException.Forbidden.class)
+  private void feignExceptionForbidden(FeignException.Forbidden ex) {
+    LOGGER.error(ex.getMessage());
   }
 }
