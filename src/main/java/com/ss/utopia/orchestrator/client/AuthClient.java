@@ -1,43 +1,38 @@
 package com.ss.utopia.orchestrator.client;
 
-import com.ss.utopia.orchestrator.controller.EndpointConstants;
+import com.ss.utopia.orchestrator.dto.accounts.CreateUserAccountDto;
+import com.ss.utopia.orchestrator.dto.accounts.NewPasswordDto;
 import com.ss.utopia.orchestrator.dto.auth.AuthDto;
-import javax.annotation.PostConstruct;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import java.util.UUID;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-@Slf4j
-@Component
-@ConfigurationProperties(prefix = "ss.utopia.auth", ignoreUnknownFields = false)
-public class AuthClient {
+@FeignClient("utopia-auth-service")
+public interface AuthClient {
 
-  @Getter
-  private final String endpoint = EndpointConstants.AUTHENTICATE_ENDPOINT;
-  @Setter
-  private String apiHost;
-  private RestTemplateBuilder builder;
-  private RestTemplate restTemplate;
+  @PostMapping(EndpointConstants.AUTHENTICATE)
+  ResponseEntity<String> authenticate(@RequestBody AuthDto authDto);
 
-  @Autowired
-  public void setBuilder(RestTemplateBuilder builder) {
-    this.builder = builder;
-  }
+  @GetMapping(EndpointConstants.API_V_0_1_ACCOUNTS)
+  ResponseEntity<String> testMethod(String authHeader);
 
-  @PostConstruct
-  public void init() {
-    restTemplate = builder.build();
-  }
+  @PostMapping(EndpointConstants.API_V_0_1_ACCOUNTS)
+  ResponseEntity<UUID> createNewAccount(@RequestBody CreateUserAccountDto dto);
 
-  public ResponseEntity<String> authenticate(AuthDto authDto) {
-    var url = apiHost + endpoint;
-    log.debug("POST " + url);
-    return restTemplate.postForEntity(url, authDto, String.class);
-  }
+  @PostMapping(EndpointConstants.API_V_0_1_ACCOUNTS + "/password-reset")
+  ResponseEntity<String> setPasswordResetToken(@RequestBody String emailObject);
+
+  @PostMapping(EndpointConstants.API_V_0_1_ACCOUNTS + "/new-password")
+  ResponseEntity<String> updatePassword(@RequestBody NewPasswordDto newPasswordDto);
+
+  @GetMapping(EndpointConstants.API_V_0_1_ACCOUNTS + "/new-password/{token}")
+  ResponseEntity<String> checkToken(@PathVariable String token);
+
+  @PutMapping(EndpointConstants.API_V_0_1_ACCOUNTS + "/confirm/{confirmationTokenId}")
+  void confirmAccountRegistration(@PathVariable UUID confirmationTokenId);
 }

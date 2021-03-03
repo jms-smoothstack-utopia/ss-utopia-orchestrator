@@ -1,6 +1,6 @@
 package com.ss.utopia.orchestrator.controller;
 
-import com.ss.utopia.orchestrator.client.AirportClient;
+import com.ss.utopia.orchestrator.client.FlightClient;
 import com.ss.utopia.orchestrator.dto.flights.airport.CreateAirportDto;
 import com.ss.utopia.orchestrator.dto.flights.airport.UpdateAirportDto;
 import com.ss.utopia.orchestrator.models.flights.airport.Airport;
@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
-@RequestMapping(EndpointConstants.AIRPORTS_ENDPOINT)
+@RequestMapping(GatewayConstants.AIRPORTS)
 public class AirportController {
 
-  private final AirportClient client;
+  private final FlightClient client;
 
   @GetMapping(value = "/{id}",
       produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
