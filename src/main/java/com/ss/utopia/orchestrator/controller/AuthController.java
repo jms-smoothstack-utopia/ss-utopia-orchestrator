@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
-@RequestMapping(EndpointConstants.AUTHENTICATE_ENDPOINT)
+@RequestMapping(GatewayConstants.AUTHENTICATE)
 public class AuthController {
 
   private final AuthClient authClient;

@@ -1,69 +1,67 @@
 package com.ss.utopia.orchestrator.client;
 
-import com.ss.utopia.orchestrator.controller.EndpointConstants;
+import com.ss.utopia.orchestrator.dto.flights.airplane.AirplaneDto;
+import com.ss.utopia.orchestrator.dto.flights.airport.CreateAirportDto;
+import com.ss.utopia.orchestrator.dto.flights.airport.UpdateAirportDto;
 import com.ss.utopia.orchestrator.dto.flights.flight.CreateFlightDto;
 import com.ss.utopia.orchestrator.dto.flights.flight.UpdateFlightDto;
+import com.ss.utopia.orchestrator.models.flights.airplane.Airplane;
+import com.ss.utopia.orchestrator.models.flights.airport.Airport;
 import com.ss.utopia.orchestrator.models.flights.flight.Flight;
-import javax.annotation.PostConstruct;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-@Slf4j
-@Component
-@ConfigurationProperties(prefix = "ss.utopia.flight", ignoreUnknownFields = false)
-public class FlightClient {
+@FeignClient("utopia-flights-service")
+public interface FlightClient {
 
-  @Getter
-  private final String endpoint = EndpointConstants.FLIGHTS_ENDPOINT;
-  @Setter
-  private String apiHost;
-  private RestTemplateBuilder builder;
-  private RestTemplate restTemplate;
+  @GetMapping(EndpointConstants.API_V_0_1_FLIGHTS)
+  ResponseEntity<Flight[]> getAllFlights();
 
-  @Autowired
-  public void setBuilder(RestTemplateBuilder builder) {
-    this.builder = builder;
-  }
+  @GetMapping(EndpointConstants.API_V_0_1_FLIGHTS + "/{id}")
+  ResponseEntity<Flight> getFlightById(@PathVariable Long id);
 
-  @PostConstruct
-  public void init() {
-    restTemplate = builder.build();
-  }
+  @PostMapping(EndpointConstants.API_V_0_1_FLIGHTS)
+  ResponseEntity<Long> createFlight(@RequestBody CreateFlightDto flightDto);
 
-  public ResponseEntity<Flight> getFlightById(Long id) {
-    var url = apiHost + endpoint + id;
-    log.info("GET " + url);
-    return restTemplate.getForEntity(url, Flight.class);
-  }
+  @PutMapping(EndpointConstants.API_V_0_1_FLIGHTS + "/{id}")
+  void updateFlight(@PathVariable Long id, @RequestBody UpdateFlightDto flightDto);
 
-  public ResponseEntity<Flight[]> getAllFlights() {
-    var url = apiHost + endpoint;
-    log.info("GET " + url);
-    return restTemplate.getForEntity(url, Flight[].class);
-  }
+  @DeleteMapping(EndpointConstants.API_V_0_1_FLIGHTS + "/{id}")
+  void deleteFlight(@PathVariable Long id);
 
-  public ResponseEntity<Long> createFlight(CreateFlightDto flightDto) {
-    var url = apiHost + endpoint;
-    log.info("POST " + url);
-    return restTemplate.postForEntity(url, flightDto, Long.class);
-  }
+  @GetMapping(EndpointConstants.API_V_0_1_AIRPORTS)
+  ResponseEntity<Airport[]> getAllAirports();
 
-  public void updateFlight(Long id, UpdateFlightDto flightDto) {
-    var url = apiHost + endpoint + id;
-    log.info("PUT " + url);
-    restTemplate.put(url, flightDto);
-  }
+  @GetMapping(EndpointConstants.API_V_0_1_AIRPORTS + "/{id}")
+  ResponseEntity<Airport> getAirportById(@PathVariable Long id);
 
-  public void deleteFlight(Long id) {
-    var url = apiHost + endpoint + id;
-    log.info("DELETE " + url);
-    restTemplate.delete(url);
-  }
+  @PostMapping(EndpointConstants.API_V_0_1_AIRPORTS)
+  ResponseEntity<Long> createAirport(@RequestBody CreateAirportDto airportDto);
+
+  @PutMapping(EndpointConstants.API_V_0_1_AIRPORTS + "/{id}")
+  void updateAirport(@PathVariable Long id, @RequestBody UpdateAirportDto airportDto);
+
+  @DeleteMapping(EndpointConstants.API_V_0_1_AIRPORTS + "/{id}")
+  void deleteAirport(@PathVariable Long id);
+
+  @GetMapping(EndpointConstants.API_V_0_1_AIRPLANES)
+  ResponseEntity<Airplane[]> getAllAirplanes();
+
+  @GetMapping(EndpointConstants.API_V_0_1_AIRPLANES + "/{id}")
+  ResponseEntity<Airplane> getAirplaneById(@PathVariable Long id);
+
+  @PostMapping(EndpointConstants.API_V_0_1_AIRPLANES)
+  ResponseEntity<Long> createAirplane(@RequestBody AirplaneDto airplaneDto);
+
+  @PutMapping(EndpointConstants.API_V_0_1_AIRPLANES + "/{id}")
+  void updateAirplane(@PathVariable Long id, @RequestBody AirplaneDto airplaneDto);
+
+  @DeleteMapping(EndpointConstants.API_V_0_1_AIRPLANES + "/{id}")
+  void deleteAirplane(@PathVariable Long id);
 }

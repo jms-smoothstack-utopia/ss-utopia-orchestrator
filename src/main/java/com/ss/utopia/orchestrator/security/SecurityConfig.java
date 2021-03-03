@@ -1,6 +1,6 @@
 package com.ss.utopia.orchestrator.security;
 
-import com.ss.utopia.orchestrator.controller.EndpointConstants;
+import com.ss.utopia.orchestrator.controller.GatewayConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -22,17 +22,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
         .requestMatchers(CorsUtils::isCorsRequest).permitAll()
-        .antMatchers(HttpMethod.POST, EndpointConstants.AUTHENTICATE_ENDPOINT).permitAll()
-        .antMatchers(HttpMethod.POST, EndpointConstants.ACCOUNTS_ENDPOINT).permitAll()
-        .antMatchers(HttpMethod.PUT, EndpointConstants.ACCOUNTS_ENDPOINT + "/confirm/**").permitAll()
+        .antMatchers(HttpMethod.POST, GatewayConstants.AUTHENTICATE).permitAll()
+        .antMatchers(HttpMethod.POST, GatewayConstants.ACCOUNTS).permitAll()
+        .antMatchers(HttpMethod.PUT, GatewayConstants.ACCOUNTS + "/confirm/**").permitAll()
         .antMatchers("/api-docs/**").permitAll()
         //todo these need role lockdowns, but for now permit all
         .antMatchers(
-            EndpointConstants.AIRPLANES_ENDPOINT,
-            EndpointConstants.AIRPORTS_ENDPOINT,
-            EndpointConstants.CUSTOMERS_ENDPOINT,
-            EndpointConstants.FLIGHTS_ENDPOINT,
-            EndpointConstants.TICKETS_ENDPOINT
+            GatewayConstants.AIRPLANES,
+            GatewayConstants.AIRPORTS,
+            GatewayConstants.CUSTOMERS,
+            GatewayConstants.FLIGHTS,
+            GatewayConstants.TICKETS
         ).permitAll()
         .anyRequest().authenticated()
         .and()

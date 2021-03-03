@@ -1,62 +1,27 @@
 package com.ss.utopia.orchestrator.client;
 
-import com.ss.utopia.orchestrator.controller.EndpointConstants;
 import com.ss.utopia.orchestrator.dto.tickets.PurchaseTicketDto;
 import com.ss.utopia.orchestrator.models.tickets.Ticket;
-import javax.annotation.PostConstruct;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-@Slf4j
-@Component
-@ConfigurationProperties(prefix = "ss.utopia.ticket", ignoreUnknownFields = false)
-public class TicketsClient {
+@FeignClient("utopia-tickets-service")
+public interface TicketsClient {
 
-  @Getter
-  private final String endpoint = EndpointConstants.TICKETS_ENDPOINT;
-  @Setter
-  private String apiHost;
-  private RestTemplateBuilder builder;
-  private RestTemplate restTemplate;
+  @GetMapping(EndpointConstants.API_V_0_1_TICKETS)
+  ResponseEntity<Ticket[]> getAllTickets();
 
-  @Autowired
-  public void setBuilder(RestTemplateBuilder builder) {
-    this.builder = builder;
-  }
+  @GetMapping(EndpointConstants.API_V_0_1_TICKETS + "/{id}")
+  ResponseEntity<Ticket> getTicketById(@PathVariable Long id);
 
-  @PostConstruct
-  public void init() {
-    restTemplate = builder.build();
-  }
+  @PostMapping(EndpointConstants.API_V_0_1_TICKETS)
+  ResponseEntity<Ticket> createTicket(@RequestBody PurchaseTicketDto ticketsDto);
 
-  public ResponseEntity<Ticket[]> getAllTickets() {
-    var url = apiHost + endpoint;
-    log.info("GET " + url);
-    return restTemplate.getForEntity(url, Ticket[].class);
-  }
-
-  public ResponseEntity<Ticket> getTicketById(Long id) {
-    var url = apiHost + endpoint + id;
-    log.info("GET " + url);
-    return restTemplate.getForEntity(url, Ticket.class);
-  }
-
-  public ResponseEntity<Ticket> createTicket(PurchaseTicketDto ticketsDto) {
-    var url = apiHost + endpoint;
-    log.info("POST " + url);
-    return restTemplate.postForEntity(url, ticketsDto, Ticket.class);
-  }
-
-  public void checkIn(Long id) {
-    var url = apiHost + endpoint + id;
-    log.info("PUT " + url);
-    restTemplate.put(url, null);
-  }
+  @PutMapping(EndpointConstants.API_V_0_1_TICKETS + "/{id}")
+  void checkIn(@PathVariable Long id);
 }

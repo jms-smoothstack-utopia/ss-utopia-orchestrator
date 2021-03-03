@@ -64,11 +64,13 @@
       <artifactId>jackson-dataformat-xml</artifactId>
     </dependency>
 
+    <!-- SECURITY DEPENDENCIES -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
     <dependency>
       <groupId>com.auth0</groupId>
       <artifactId>java-jwt</artifactId>
@@ -84,6 +86,17 @@
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-config</artifactId>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-openfeign</artifactId>
     </dependency>
   </dependencies>
 
