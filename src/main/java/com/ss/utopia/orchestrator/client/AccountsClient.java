@@ -2,6 +2,8 @@ package com.ss.utopia.orchestrator.client;
 
 import com.ss.utopia.orchestrator.controller.EndpointConstants;
 import com.ss.utopia.orchestrator.dto.accounts.CreateUserAccountDto;
+import com.ss.utopia.orchestrator.dto.accounts.NewPasswordDto;
+import com.ss.utopia.orchestrator.dto.accounts.ResetPasswordDto;
 import com.ss.utopia.orchestrator.security.SecurityConstants;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
@@ -55,6 +57,27 @@ public class AccountsClient {
     return restTemplate.postForEntity(url, dto, UUID.class);
   }
 
+
+  public ResponseEntity<String> setPasswordResetToken(String emailObject) {
+    var url = apiHost + endpoint + "/password-reset";
+    log.debug("Post: " + url + ". Trying to initiate password reset");
+    ResetPasswordDto emailToCheck = new ResetPasswordDto();
+    emailToCheck.setEmail(emailObject);
+    return restTemplate.postForEntity(url, emailToCheck, String.class);
+  }
+
+  public ResponseEntity<String> updatePassword(NewPasswordDto newPasswordDto) {
+    var url = apiHost + endpoint + "/new-password";
+    log.debug("Post: " + url + ". Changing password for this user who had this token");
+    return restTemplate.postForEntity(url, newPasswordDto, String.class);
+  }
+
+  public ResponseEntity<String> checkToken(String token) {
+    var url = apiHost + endpoint + "/new-password/" + token;
+    log.debug("Get: " + url + ". Checking if a token is valid");
+    return restTemplate.getForEntity(url, String.class);
+
+  }
 
   public void confirmAccountRegistration(UUID confirmationTokenId) {
     var url = apiHost + endpoint + "/confirm/" + confirmationTokenId;
