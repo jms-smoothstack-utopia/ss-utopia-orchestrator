@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -14,6 +15,7 @@ import org.springframework.web.cors.CorsUtils;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -30,7 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.PUT, GatewayConstants.ACCOUNTS + "/confirm/**").permitAll()
         .anyRequest().authenticated()
         .and()
-        .addFilter(new JwtAuthenticationVerificationFilter(authenticationManagerBean(), securityConstants))
+        .addFilter(new JwtAuthenticationVerificationFilter(authenticationManagerBean(),
+                                                           securityConstants))
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     ;
   }
