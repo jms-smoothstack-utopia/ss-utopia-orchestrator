@@ -2,7 +2,7 @@ package com.ss.utopia.orchestrator.config;
 
 public class GatewayConstants {
 
-  public static final String AUTHENTICATE = "/authenticate";
+  public static final String AUTHENTICATE = "/login";
   public static final String ACCOUNTS = "/accounts";
   public static final String AIRPLANES = "/airplanes";
   public static final String AIRPORTS = "/airports";
