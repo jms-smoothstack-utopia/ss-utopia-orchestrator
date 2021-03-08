@@ -1,4 +1,4 @@
-package com.ss.utopia.orchestrator.dto.customers;
+package com.ss.utopia.orchestrator.dto;
 
 import java.util.UUID;
 import lombok.AllArgsConstructor;

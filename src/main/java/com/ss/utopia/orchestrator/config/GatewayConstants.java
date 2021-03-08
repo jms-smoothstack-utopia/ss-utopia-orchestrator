@@ -1,4 +1,4 @@
-package com.ss.utopia.orchestrator.controller;
+package com.ss.utopia.orchestrator.config;
 
 public class GatewayConstants {
 
