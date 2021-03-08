@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: utopia-orchestrator-service
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: true
+
