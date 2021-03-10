@@ -9,4 +9,5 @@ public class GatewayConstants {
   public static final String CUSTOMERS = "/customers";
   public static final String FLIGHTS = "/flights";
   public static final String TICKETS = "/tickets";
+  public static final String SERVICING_AREA = "/servicing-area";
 }

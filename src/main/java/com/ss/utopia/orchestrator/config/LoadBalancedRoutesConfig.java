@@ -40,6 +40,10 @@ public class LoadBalancedRoutesConfig {
             .filters(f -> f.prefixPath(API_LATEST))
             .uri("lb://utopia-tickets-service"))
 
+        .route(r -> r.path(GatewayConstants.SERVICING_AREA + "/**")
+            .filters(f -> f.prefixPath(API_LATEST))
+            .uri("lb://utopia-flights-service"))
+        
         .build();
   }
 }
