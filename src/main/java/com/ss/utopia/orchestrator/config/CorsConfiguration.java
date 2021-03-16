@@ -1,5 +1,6 @@
 package com.ss.utopia.orchestrator.config;
 
+import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -17,10 +18,25 @@ import reactor.core.publisher.Mono;
 @Configuration
 public class CorsConfiguration {
 
-  private static final String ALLOWED_HEADERS = "x-requested-with, authorization, Content-Type, Authorization, credential, X-XSRF-TOKEN";
-  private static final String ALLOWED_METHODS = "GET, PUT, POST, DELETE, OPTIONS";
+  public static final String ALLOWED_ORIGIN_KEY = "Access-Control-Allow-Origin";
+  public static final String ALLOWED_HEADERS_KEY = "Access-Control-Allow-Headers";
+  public static final List<String> HEADERS_LIST = List.of(
+      "x-requested-with",
+      "authorization",
+      "Content-Type",
+      "Authorization",
+      "credential",
+      "X-XSRF-TOKEN"
+  );
+  public static final String ALLOWED_HEADERS_VALUE = String.join(", ", HEADERS_LIST);
+  public static final String MAX_AGE_KEY = "Access-Control-Max-Age";
+  public static final String MAX_AGE_VALUE = "3600";
+  public static final String ALLOWED_METHODS_KEY = "Access-Control-Allow-Methods";
+  public static final List<String> ALLOWED_METHODS = List.of(
+      "GET", "PUT", "POST", "DELETE", "OPTIONS"
+  );
+  public static final String ALLOWED_METHODS_VALUE = String.join(", ", ALLOWED_METHODS);
   private static final String ALLOWED_ORIGIN = "*";
-  private static final String MAX_AGE = "3600";
 
   @Bean
   public WebFilter corsFilter() {
@@ -29,10 +45,12 @@ public class CorsConfiguration {
       if (CorsUtils.isCorsRequest(request)) {
         ServerHttpResponse response = ctx.getResponse();
         HttpHeaders headers = response.getHeaders();
-        headers.add("Access-Control-Allow-Origin", ALLOWED_ORIGIN);
-        headers.add("Access-Control-Allow-Methods", ALLOWED_METHODS);
-        headers.add("Access-Control-Max-Age", MAX_AGE);
-        headers.add("Access-Control-Allow-Headers", ALLOWED_HEADERS);
+
+        headers.add(ALLOWED_ORIGIN_KEY, ALLOWED_ORIGIN);
+        headers.add(ALLOWED_METHODS_KEY, ALLOWED_METHODS_VALUE);
+        headers.add(MAX_AGE_KEY, MAX_AGE_VALUE);
+        headers.add(ALLOWED_HEADERS_KEY, ALLOWED_HEADERS_VALUE);
+
         if (request.getMethod() == HttpMethod.OPTIONS) {
           response.setStatusCode(HttpStatus.OK);
           return Mono.empty();

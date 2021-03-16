@@ -10,40 +10,45 @@ public class LoadBalancedRoutesConfig {
 
   public static final String API_LATEST = "/api/v0.1";
 
+  public static final String AUTH_SERVICE = "lb://utopia-auth-service";
+  public static final String FLIGHTS_SERVICE = "lb://utopia-flights-service";
+  public static final String CUSTOMERS_SERVICE = "lb://utopia-customers-service";
+  public static final String TICKETS_SERVICE = "lb://utopia-tickets-service";
+
   @Bean
   public RouteLocator routeLocator(RouteLocatorBuilder builder) {
     return builder.routes()
         .route(r -> r.path(GatewayConstants.AUTHENTICATE)
-            .uri("lb://utopia-auth-service"))
+            .uri(AUTH_SERVICE))
 
         .route(r -> r.path(GatewayConstants.ACCOUNTS + "/**")
             .filters(f -> f.prefixPath(API_LATEST))
-            .uri("lb://utopia-auth-service"))
+            .uri(AUTH_SERVICE))
 
         .route(r -> r.path(GatewayConstants.AIRPLANES + "/**")
             .filters(f -> f.prefixPath(API_LATEST))
-            .uri("lb://utopia-flights-service"))
+            .uri(FLIGHTS_SERVICE))
 
         .route(r -> r.path(GatewayConstants.AIRPORTS + "/**")
             .filters(f -> f.prefixPath(API_LATEST))
-            .uri("lb://utopia-flights-service"))
+            .uri(FLIGHTS_SERVICE))
 
         .route(r -> r.path(GatewayConstants.CUSTOMERS, GatewayConstants.CUSTOMERS + "/**")
             .filters(f -> f.prefixPath(API_LATEST))
-            .uri("lb://utopia-customers-service"))
+            .uri(CUSTOMERS_SERVICE))
 
         .route(r -> r.path(GatewayConstants.FLIGHTS + "/**")
             .filters(f -> f.prefixPath(API_LATEST))
-            .uri("lb://utopia-flights-service"))
+            .uri(FLIGHTS_SERVICE))
 
         .route(r -> r.path(GatewayConstants.TICKETS + "/**")
             .filters(f -> f.prefixPath(API_LATEST))
-            .uri("lb://utopia-tickets-service"))
+            .uri(TICKETS_SERVICE))
 
         .route(r -> r.path(GatewayConstants.SERVICING_AREA + "/**")
             .filters(f -> f.prefixPath(API_LATEST))
-            .uri("lb://utopia-flights-service"))
-        
+            .uri(FLIGHTS_SERVICE))
+
         .build();
   }
 }
